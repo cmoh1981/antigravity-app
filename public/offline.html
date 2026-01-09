@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>오프라인 - 오늘건강</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      padding: 20px;
+    }
+    
+    .container {
+      text-align: center;
+      max-width: 400px;
+    }
+    
+    .icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    h1 {
+      font-size: 28px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+      opacity: 0.9;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 14px 32px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid white;
+      border-radius: 12px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    .features {
+      margin-top: 32px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .features h2 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    
+    .features ul {
+      list-style: none;
+      text-align: left;
+    }
+    
+    .features li {
+      padding: 8px 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .features li::before {
+      content: "✓ ";
+      font-weight: bold;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+    <h1>인터넷 연결이 끊어졌습니다</h1>
+    <p>오늘건강 앱을 사용하려면 인터넷 연결이 필요합니다. 연결을 확인하고 다시 시도해주세요.</p>
+    <a href="/" class="button" onclick="window.location.reload()">다시 시도</a>
+    
+    <div class="features">
+      <h2>오프라인에서도 가능한 기능</h2>
+      <ul>
+        <li>이전에 저장된 운동 기록 보기</li>
+        <li>오늘의 식단 계획 확인</li>
+        <li>건강 목표 및 프로필 확인</li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    // Auto-retry connection every 5 seconds
+    let retryCount = 0;
+    const maxRetries = 5;
+    
+    function checkConnection() {
+      if (navigator.onLine && retryCount < maxRetries) {
+        window.location.reload();
+      } else if (retryCount < maxRetries) {
+        retryCount++;
+        setTimeout(checkConnection, 5000);
+      }
+    }
+    
+    window.addEventListener('online', () => {
+      window.location.reload();
+    });
+    
+    setTimeout(checkConnection, 5000);
+  </script>
+</body>
+</html>
