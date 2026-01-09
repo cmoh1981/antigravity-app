@@ -2,16 +2,20 @@ import { Text, View, Pressable, StyleSheet, ScrollView } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
+import { useAppStore } from "@/store";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
+import { OnboardingProgress } from "@/components/onboarding-progress";
 
 export default function PremiumScreen() {
   const colors = useColors();
+  const completeOnboardingStep = useAppStore((state) => state.completeOnboardingStep);
 
   const handleNext = () => {
     if (Platform.OS !== "web") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
+    completeOnboardingStep('premium');
     router.push("/onboarding/complete");
   };
 
@@ -21,26 +25,19 @@ export default function PremiumScreen() {
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
+      {/* Progress Bar */}
+      <OnboardingProgress currentStepId="premium" />
+      
       <ScrollView 
         className="flex-1" 
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="px-6 pt-12">
+        <View className="px-6 pt-4">
           {/* Back Button */}
           <Pressable onPress={handleBack} className="mb-4">
             <Text className="text-primary text-base">← 이전</Text>
           </Pressable>
-
-          {/* Progress */}
-          <View className="flex-row mb-8">
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-primary rounded-full" />
-          </View>
 
           {/* Title */}
           <View className="items-center mb-6">

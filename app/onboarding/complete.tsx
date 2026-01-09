@@ -13,10 +13,12 @@ import Animated, {
   withSpring,
   withDelay,
 } from "react-native-reanimated";
+import { OnboardingProgress } from "@/components/onboarding-progress";
 
 export default function CompleteScreen() {
   const colors = useColors();
   const userProfile = useAppStore((state) => state.userProfile);
+  const completeOnboardingStep = useAppStore((state) => state.completeOnboardingStep);
   
   const scale = useSharedValue(0);
   const opacity = useSharedValue(0);
@@ -28,6 +30,9 @@ export default function CompleteScreen() {
     if (Platform.OS !== "web") {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     }
+    
+    // Mark complete step as done
+    completeOnboardingStep('complete');
   }, []);
 
   const animatedIconStyle = useAnimatedStyle(() => ({
@@ -55,6 +60,9 @@ export default function CompleteScreen() {
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
+      {/* Progress Bar - All Complete */}
+      <OnboardingProgress currentStepId="complete" />
+      
       <View className="flex-1 justify-center items-center px-6">
         {/* Logo with Success Animation */}
         <Animated.View style={animatedIconStyle}>

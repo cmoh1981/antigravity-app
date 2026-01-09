@@ -2,22 +2,36 @@ import { Text, View, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
+import { useAppStore } from "@/store";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
 import { Image } from "expo-image";
+import { useEffect } from "react";
+import { OnboardingProgress } from "@/components/onboarding-progress";
 
 export default function WelcomeScreen() {
   const colors = useColors();
+  const startOnboarding = useAppStore((state) => state.startOnboarding);
+  const completeOnboardingStep = useAppStore((state) => state.completeOnboardingStep);
+
+  // Start onboarding tracking when this screen mounts
+  useEffect(() => {
+    startOnboarding();
+  }, [startOnboarding]);
 
   const handleStart = () => {
     if (Platform.OS !== "web") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
+    completeOnboardingStep('welcome');
     router.push("/onboarding/goal");
   };
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
+      {/* Progress Bar */}
+      <OnboardingProgress currentStepId="welcome" />
+      
       <View className="flex-1 justify-center items-center px-6">
         {/* Logo */}
         <View className="w-28 h-28 rounded-3xl overflow-hidden mb-6 shadow-lg">

@@ -7,6 +7,7 @@ import { useAppStore } from "@/store";
 import { UserGoal, GOAL_LABELS } from "@/types";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
+import { OnboardingProgress } from "@/components/onboarding-progress";
 
 const GOALS: { value: UserGoal; emoji: string; description: string }[] = [
   { value: "weight_management", emoji: "⚖️", description: "건강한 체중을 유지하고 싶어요" },
@@ -19,6 +20,7 @@ const GOALS: { value: UserGoal; emoji: string; description: string }[] = [
 export default function GoalScreen() {
   const colors = useColors();
   const [selectedGoal, setSelectedGoal] = useState<UserGoal | null>(null);
+  const completeOnboardingStep = useAppStore((state) => state.completeOnboardingStep);
 
   const handleSelect = (goal: UserGoal) => {
     if (Platform.OS !== "web") {
@@ -48,27 +50,21 @@ export default function GoalScreen() {
       },
     }));
     
+    completeOnboardingStep('goal');
     router.push("/onboarding/body");
   };
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
+      {/* Progress Bar */}
+      <OnboardingProgress currentStepId="goal" />
+      
       <ScrollView 
         className="flex-1" 
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="px-6 pt-12">
-          {/* Progress */}
-          <View className="flex-row mb-8">
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-border rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-border rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-border rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-border rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-border rounded-full" />
-          </View>
-
+        <View className="px-6 pt-4">
           {/* Title */}
           <Text className="text-2xl font-bold text-foreground mb-2">
             목표를 선택해주세요

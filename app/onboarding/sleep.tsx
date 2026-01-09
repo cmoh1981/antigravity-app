@@ -6,6 +6,7 @@ import { useColors } from "@/hooks/use-colors";
 import { useAppStore } from "@/store";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
+import { OnboardingProgress } from "@/components/onboarding-progress";
 
 const BEDTIMES = [
   "21:00", "21:30", "22:00", "22:30", "23:00", "23:30", 
@@ -19,6 +20,7 @@ const WAKEUPS = [
 
 export default function SleepScreen() {
   const colors = useColors();
+  const completeOnboardingStep = useAppStore((state) => state.completeOnboardingStep);
   const [bedtime, setBedtime] = useState<string | null>(null);
   const [wakeup, setWakeup] = useState<string | null>(null);
   const [isShiftWorker, setIsShiftWorker] = useState(false);
@@ -34,6 +36,7 @@ export default function SleepScreen() {
       isShiftWorker,
     });
     
+    completeOnboardingStep('sleep');
     router.push("/onboarding/medication");
   };
 
@@ -45,31 +48,25 @@ export default function SleepScreen() {
     if (Platform.OS !== "web") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
+    completeOnboardingStep('sleep');
     router.push("/onboarding/medication");
   };
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
+      {/* Progress Bar */}
+      <OnboardingProgress currentStepId="sleep" />
+      
       <ScrollView 
         className="flex-1" 
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="px-6 pt-12">
+        <View className="px-6 pt-4">
           {/* Back Button */}
           <Pressable onPress={handleBack} className="mb-4">
             <Text className="text-primary text-base">← 이전</Text>
           </Pressable>
-
-          {/* Progress */}
-          <View className="flex-row mb-8">
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-border rounded-full mr-1" />
-            <View className="flex-1 h-1 bg-border rounded-full" />
-          </View>
 
           {/* Title */}
           <Text className="text-2xl font-bold text-foreground mb-2">

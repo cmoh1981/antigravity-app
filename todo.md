@@ -130,3 +130,9 @@
 
 ## Bug Fixes
 - [x] Fix app crash on mobile device launch (screen goes black) - fixed duplicate import
+
+## Onboarding Step Tracking
+- [x] Add onboarding progress state to store
+- [x] Track completion of each onboarding step
+- [x] Add progress indicator UI to onboarding screens
+- [x] Write unit tests for onboarding flow

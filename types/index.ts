@@ -311,6 +311,44 @@ export interface ChatMessage {
 }
 
 // ============================================
+// Onboarding Progress
+// ============================================
+
+export type OnboardingStepId = 
+  | 'welcome'
+  | 'goal'
+  | 'body'
+  | 'diseases'
+  | 'sleep'
+  | 'medication'
+  | 'premium'
+  | 'complete';
+
+export interface OnboardingStep {
+  id: OnboardingStepId;
+  title: string;
+  required: boolean;
+}
+
+export interface OnboardingProgress {
+  currentStep: OnboardingStepId;
+  completedSteps: OnboardingStepId[];
+  startedAt: string;
+  completedAt: string | null;
+}
+
+export const ONBOARDING_STEPS: OnboardingStep[] = [
+  { id: 'welcome', title: '환영', required: true },
+  { id: 'goal', title: '목표 선택', required: true },
+  { id: 'body', title: '신체 정보', required: true },
+  { id: 'diseases', title: '건강 상태', required: false },
+  { id: 'sleep', title: '수면 프로필', required: false },
+  { id: 'medication', title: '복용 약물', required: false },
+  { id: 'premium', title: '프리미엄 안내', required: false },
+  { id: 'complete', title: '완료', required: true },
+];
+
+// ============================================
 // App State
 // ============================================
 

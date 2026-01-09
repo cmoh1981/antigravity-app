@@ -5,10 +5,12 @@ import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { useAppStore } from "@/store";
 import * as Haptics from "expo-haptics";
+import { OnboardingProgress } from "@/components/onboarding-progress";
 
 export default function BodyScreen() {
   const colors = useColors();
   const userProfile = useAppStore((state) => state.userProfile);
+  const completeOnboardingStep = useAppStore((state) => state.completeOnboardingStep);
   
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
@@ -35,6 +37,7 @@ export default function BodyScreen() {
       waist: waist ? parseFloat(waist) : undefined,
     });
     
+    completeOnboardingStep('body');
     router.push("/onboarding/diseases");
   };
 
@@ -44,6 +47,9 @@ export default function BodyScreen() {
 
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
+      {/* Progress Bar */}
+      <OnboardingProgress currentStepId="body" />
+      
       <KeyboardAvoidingView 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
@@ -54,21 +60,11 @@ export default function BodyScreen() {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
-          <View className="px-6 pt-12">
+          <View className="px-6 pt-4">
             {/* Back Button */}
             <Pressable onPress={handleBack} className="mb-4">
               <Text className="text-primary text-base">← 이전</Text>
             </Pressable>
-
-            {/* Progress */}
-            <View className="flex-row mb-8">
-              <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-              <View className="flex-1 h-1 bg-primary rounded-full mr-1" />
-              <View className="flex-1 h-1 bg-border rounded-full mr-1" />
-              <View className="flex-1 h-1 bg-border rounded-full mr-1" />
-              <View className="flex-1 h-1 bg-border rounded-full mr-1" />
-              <View className="flex-1 h-1 bg-border rounded-full" />
-            </View>
 
             {/* Title */}
             <Text className="text-2xl font-bold text-foreground mb-2">

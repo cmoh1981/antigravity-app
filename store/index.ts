@@ -18,6 +18,9 @@ import {
   Disease,
   InBodyMetrics,
   SleepProfile,
+  OnboardingProgress,
+  OnboardingStepId,
+  ONBOARDING_STEPS,
 } from '@/types';
 
 // ============================================
@@ -27,6 +30,7 @@ import {
 interface AppStore {
   // State
   isOnboarded: boolean;
+  onboardingProgress: OnboardingProgress | null;
   userProfile: UserProfile | null;
   todayCheckIn: DailyCheckIn | null;
   todayPlan: PlanOfDay | null;
@@ -38,6 +42,9 @@ interface AppStore {
 
   // Onboarding Actions
   setOnboarded: (value: boolean) => void;
+  startOnboarding: () => void;
+  completeOnboardingStep: (stepId: OnboardingStepId) => void;
+  getOnboardingProgress: () => { current: number; total: number; percentage: number };
   
   // Profile Actions
   setUserProfile: (profile: UserProfile) => void;
@@ -96,6 +103,7 @@ const defaultSettings: AppSettings = {
 
 const initialState = {
   isOnboarded: false,
+  onboardingProgress: null as OnboardingProgress | null,
   userProfile: null,
   todayCheckIn: null,
   todayPlan: null,
@@ -118,6 +126,50 @@ export const useAppStore = create<AppStore>()(
 
       // Onboarding Actions
       setOnboarded: (value) => set({ isOnboarded: value }),
+      
+      startOnboarding: () => set({
+        onboardingProgress: {
+          currentStep: 'welcome',
+          completedSteps: [],
+          startedAt: new Date().toISOString(),
+          completedAt: null,
+        },
+      }),
+      
+      completeOnboardingStep: (stepId) => set((state) => {
+        const progress = state.onboardingProgress;
+        if (!progress) return state;
+        
+        // Don't duplicate completed steps
+        if (progress.completedSteps.includes(stepId)) {
+          return state;
+        }
+        
+        const newCompletedSteps = [...progress.completedSteps, stepId];
+        const currentIndex = ONBOARDING_STEPS.findIndex(s => s.id === stepId);
+        const nextStep = ONBOARDING_STEPS[currentIndex + 1];
+        const isComplete = stepId === 'complete';
+        
+        return {
+          onboardingProgress: {
+            ...progress,
+            completedSteps: newCompletedSteps,
+            currentStep: nextStep?.id || 'complete',
+            completedAt: isComplete ? new Date().toISOString() : null,
+          },
+        };
+      }),
+      
+      getOnboardingProgress: () => {
+        const progress = get().onboardingProgress;
+        if (!progress) {
+          return { current: 0, total: ONBOARDING_STEPS.length, percentage: 0 };
+        }
+        const current = progress.completedSteps.length;
+        const total = ONBOARDING_STEPS.length;
+        const percentage = Math.round((current / total) * 100);
+        return { current, total, percentage };
+      },
 
       // Profile Actions
       setUserProfile: (profile) => set({ userProfile: profile }),
