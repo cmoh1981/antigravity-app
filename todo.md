@@ -53,7 +53,7 @@
 - [x] Bedtime window suggestion
 
 ## Meal Logging
-- [ ] Photo capture with expo-camera
+- [x] Photo capture with expo-camera
 - [x] Manual tag confirmation UI
 - [x] Meal log storage
 - [ ] Calorie range estimation (optional)
@@ -136,3 +136,12 @@
 - [x] Track completion of each onboarding step
 - [x] Add progress indicator UI to onboarding screens
 - [x] Write unit tests for onboarding flow
+
+## Exercise & Meal Images
+- [x] Identify key exercise movements (15 core exercises)
+- [x] Generate exercise movement illustrations (15 images)
+- [x] Identify meal types for images (10 meal types)
+- [x] Generate meal recommendation images (10 images)
+- [x] Create image mapping file (data/images.ts)
+- [x] Integrate images into exercise screen
+- [x] Integrate images into meal screen

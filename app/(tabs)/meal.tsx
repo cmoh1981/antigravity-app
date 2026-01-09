@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Text, View, Pressable, StyleSheet, ScrollView, FlatList } from "react-native";
+import { Text, View, Pressable, StyleSheet, ScrollView, FlatList, Image } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { useAppStore, getTodayDate, generateId } from "@/store";
 import { MealLog, MealTag, MEAL_TAG_LABELS } from "@/types";
+import { getMealImage } from "@/data/images";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
 
@@ -87,19 +88,22 @@ export default function MealScreen() {
               className="p-4 rounded-xl"
               style={{ backgroundColor: colors.surface }}
             >
-              <View className="flex-row items-center mb-2">
-                <Text className="text-xl mr-2">
-                  {meal.mealType === 'breakfast' ? '🌅' : 
-                   meal.mealType === 'lunch' ? '☀️' : '🌙'}
-                </Text>
-                <Text className="text-base font-medium text-foreground">
-                  {meal.mealType === 'breakfast' ? '아침' : 
-                   meal.mealType === 'lunch' ? '점심' : '저녁'}
-                </Text>
+              <View className="flex-row items-center mb-3">
+                <Image
+                  source={getMealImage(meal.mealType as 'breakfast' | 'lunch' | 'dinner' | 'snack')}
+                  style={{ width: 60, height: 60, borderRadius: 12, marginRight: 12 }}
+                  resizeMode="cover"
+                />
+                <View className="flex-1">
+                  <Text className="text-base font-medium text-foreground mb-1">
+                    {meal.mealType === 'breakfast' ? '🌅 아침' : 
+                     meal.mealType === 'lunch' ? '☀️ 점심' : '🌙 저녁'}
+                  </Text>
+                  <Text className="text-sm text-foreground">
+                    {meal.suggestion}
+                  </Text>
+                </View>
               </View>
-              <Text className="text-sm text-foreground mb-2">
-                {meal.suggestion}
-              </Text>
               <Text className="text-xs text-muted">
                 {meal.reason}
               </Text>

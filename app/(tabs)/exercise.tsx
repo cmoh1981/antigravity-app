@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Text, View, Pressable, StyleSheet, ScrollView } from "react-native";
+import { Text, View, Pressable, StyleSheet, ScrollView, Image } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { useAppStore, getTodayDate } from "@/store";
 import { CATEGORY_LABELS, ExerciseSet } from "@/types";
+import { getExerciseImage } from "@/data/images";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
 
@@ -226,6 +227,17 @@ export default function ExerciseScreen() {
             <Text className="text-2xl font-bold text-foreground mb-2">
               {currentExercise?.name}
             </Text>
+
+            {/* Exercise Image */}
+            {currentExercise && (
+              <View className="items-center my-4">
+                <Image
+                  source={getExerciseImage(currentExercise.name)}
+                  style={{ width: 200, height: 200, borderRadius: 16 }}
+                  resizeMode="contain"
+                />
+              </View>
+            )}
             
             {currentExercise?.description && (
               <Text className="text-sm text-muted mb-4">
