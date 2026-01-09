@@ -56,6 +56,27 @@ export type MealTag =
   | 'alcohol'         // 음주
   | 'dessert';        // 디저트
 
+// Food tag for meal photo logging
+export type FoodTag = 
+  | 'protein'         // 단백질
+  | 'carbs'           // 탄수화물
+  | 'vegetables'      // 채소
+  | 'fruits'          // 과일
+  | 'dairy'           // 유제품
+  | 'grains'          // 곡물
+  | 'seafood'         // 해산물
+  | 'soup'            // 국/찌개
+  | 'fried'           // 튀김류
+  | 'spicy'           // 매운 음식
+  | 'sweet'           // 단 음식
+  | 'caffeine'        // 카페인
+  | 'alcohol'         // 주류
+  | 'processed';      // 가공식품
+
+export type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+
+export type PortionSize = 'small' | 'medium' | 'large';
+
 export type MedicationTag = 
   | 'DROWSINESS_POSSIBLE'
   | 'DEHYDRATION_RISK_POSSIBLE'
@@ -148,11 +169,13 @@ export interface PerceivedWeatherResult {
 export interface MealLog {
   id: string;
   date: string;             // YYYY-MM-DD
-  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  mealType: MealType;
   photoUri?: string;        // Local file URI
-  tags: MealTag[];
+  tags: (MealTag | FoodTag)[];
+  portionSize?: PortionSize;
   estimatedCalories?: number;
-  confirmedByUser: boolean;
+  notes?: string;
+  confirmedByUser?: boolean;
   createdAt: string;        // ISO datetime
 }
 
@@ -422,6 +445,28 @@ export const MEAL_TAG_LABELS: Record<MealTag, string> = {
   low_veggie: '채소부족',
   alcohol: '음주',
   dessert: '디저트',
+};
+
+export const FOOD_TAG_LABELS: Record<FoodTag, string> = {
+  protein: '단백질',
+  carbs: '탄수화물',
+  vegetables: '채소',
+  fruits: '과일',
+  dairy: '유제품',
+  grains: '곡물',
+  seafood: '해산물',
+  soup: '국/찌개',
+  fried: '튀김류',
+  spicy: '매운 음식',
+  sweet: '단 음식',
+  caffeine: '카페인',
+  alcohol: '주류',
+  processed: '가공식품',
+};
+
+export const ALL_TAG_LABELS: Record<MealTag | FoodTag, string> = {
+  ...MEAL_TAG_LABELS,
+  ...FOOD_TAG_LABELS,
 };
 
 export const LEVEL_LABELS: Record<ExerciseLevel, string> = {

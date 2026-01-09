@@ -53,7 +53,7 @@
 - [x] Bedtime window suggestion
 
 ## Meal Logging
-- [ ] Photo capture with expo-camera
+- [x] Photo capture with expo-camera
 - [x] Manual tag confirmation UI
 - [x] Meal log storage
 - [ ] Calorie range estimation (optional)
@@ -126,3 +126,10 @@
 - [x] Update welcome screen with 오늘건강 logo image
 - [x] Add brand slogan to welcome screen
 - [x] Update onboarding screens for brand consistency
+
+## Photo Meal Logging Feature
+- [x] Install expo-camera and configure permissions
+- [x] Create camera capture screen for meal photos
+- [x] Build meal tag confirmation UI after photo capture
+- [x] Save photo to local storage with meal log
+- [x] Display meal photos in meal history
