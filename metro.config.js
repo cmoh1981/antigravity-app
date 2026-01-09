@@ -1,5 +1,6 @@
 const { getDefaultConfig } = require("expo/metro-config");
 const { withNativeWind } = require("nativewind/metro");
+const path = require("path");
 
 const config = getDefaultConfig(__dirname);
 
@@ -21,6 +22,23 @@ config.transformer.getTransformOptions = async () => ({
     inlineRequires: true,
   },
 });
+
+// Create empty stub for worklets on web
+config.resolver = {
+  ...config.resolver,
+  resolveRequest: (context, moduleName, platform) => {
+    // Stub out worklets for web platform
+    if (platform === 'web' && moduleName === 'react-native-worklets') {
+      return {
+        filePath: path.join(__dirname, 'lib/_core/worklets-stub.web.js'),
+        type: 'sourceFile',
+      };
+    }
+    
+    // Use default resolver
+    return context.resolveRequest(context, moduleName, platform);
+  },
+};
 
 module.exports = withNativeWind(config, {
   input: "./global.css",
