@@ -109,11 +109,14 @@ export default function HomeScreen() {
             <Text className="text-5xl">☀️</Text>
           </View>
           
+          <Text className="text-sm text-primary font-medium text-center mb-1">
+            오늘건강
+          </Text>
           <Text className="text-2xl font-bold text-foreground text-center mb-2">
-            좋은 아침이에요!
+            오늘 하루, 건강하게
           </Text>
           <Text className="text-base text-muted text-center mb-8">
-            오늘의 컨디션을 체크하면{"\n"}맞춤 계획을 만들어드릴게요
+            컨디션을 체크하면{"\n"}맞춤 계획을 만들어드릴게요
           </Text>
           
           <Pressable
@@ -160,15 +163,15 @@ export default function HomeScreen() {
           {/* Header */}
           <View className="flex-row items-center justify-between mb-6">
             <View>
-              <Text className="text-sm text-muted">
+              <Text className="text-sm text-primary font-medium">
+                오늘건강
+              </Text>
+              <Text className="text-2xl font-bold text-foreground">
                 {new Date().toLocaleDateString('ko-KR', { 
                   month: 'long', 
                   day: 'numeric',
-                  weekday: 'long'
+                  weekday: 'short'
                 })}
-              </Text>
-              <Text className="text-2xl font-bold text-foreground">
-                오늘의 계획
               </Text>
             </View>
             <Pressable

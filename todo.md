@@ -121,3 +121,8 @@
 - [x] Generate new app icon with "해와 하트" concept for 오늘건강
 - [x] Update app name to 오늘건강 in app.config.ts
 - [x] Update logo URL with new icon
+
+## Onboarding Brand Update
+- [x] Update welcome screen with 오늘건강 logo image
+- [x] Add brand slogan to welcome screen
+- [x] Update onboarding screens for brand consistency

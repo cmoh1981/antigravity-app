@@ -4,6 +4,7 @@ import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
+import { Image } from "expo-image";
 
 export default function WelcomeScreen() {
   const colors = useColors();
@@ -18,21 +19,30 @@ export default function WelcomeScreen() {
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
       <View className="flex-1 justify-center items-center px-6">
-        {/* Logo Area */}
-        <View className="w-32 h-32 rounded-full bg-primary items-center justify-center mb-8">
-          <Text className="text-6xl">🌟</Text>
+        {/* Logo */}
+        <View className="w-28 h-28 rounded-3xl overflow-hidden mb-6 shadow-lg">
+          <Image
+            source={require("@/assets/images/icon.png")}
+            style={{ width: "100%", height: "100%" }}
+            contentFit="cover"
+          />
         </View>
 
-        {/* Title */}
-        <Text className="text-3xl font-bold text-foreground text-center mb-3">
-          Antigravity
+        {/* App Name */}
+        <Text className="text-4xl font-bold text-foreground text-center mb-2">
+          오늘건강
         </Text>
-        <Text className="text-lg text-muted text-center mb-2">
-          당신만을 위한 건강 코치
+        
+        {/* Slogan */}
+        <Text className="text-lg text-primary font-medium text-center mb-1">
+          오늘 하루, 건강하게
+        </Text>
+        <Text className="text-base text-muted text-center mb-6">
+          당신만을 위한 맞춤 건강 코치
         </Text>
 
-        {/* Description */}
-        <View className="bg-surface rounded-2xl p-6 mb-8 w-full max-w-sm">
+        {/* Description Card */}
+        <View className="bg-surface rounded-2xl p-5 mb-6 w-full max-w-sm border border-border">
           <Text className="text-base text-foreground leading-relaxed text-center">
             날씨, 컨디션, 목표에 맞춰{"\n"}
             <Text className="font-semibold text-primary">운동</Text>,{" "}
@@ -43,11 +53,11 @@ export default function WelcomeScreen() {
         </View>
 
         {/* Features */}
-        <View className="w-full max-w-sm mb-8">
-          <FeatureItem emoji="🏃" text="맞춤형 운동 루틴" />
-          <FeatureItem emoji="🥗" text="건강한 식단 추천" />
-          <FeatureItem emoji="😴" text="수면 가이드" />
-          <FeatureItem emoji="💊" text="복용약 관리" />
+        <View className="w-full max-w-sm mb-6">
+          <FeatureItem emoji="🏃" text="맞춤형 운동 루틴" colors={colors} />
+          <FeatureItem emoji="🥗" text="건강한 식단 추천" colors={colors} />
+          <FeatureItem emoji="😴" text="수면 가이드" colors={colors} />
+          <FeatureItem emoji="💊" text="복용약 안전 관리" colors={colors} />
         </View>
 
         {/* Start Button */}
@@ -63,7 +73,7 @@ export default function WelcomeScreen() {
         </Pressable>
 
         {/* Disclaimer */}
-        <Text className="text-xs text-muted text-center mt-6 px-4">
+        <Text className="text-xs text-muted text-center mt-5 px-4 leading-relaxed">
           이 앱은 의료 기기가 아니며, 진단이나 치료를 제공하지 않습니다.{"\n"}
           건강 문제는 전문 의료진과 상담하세요.
         </Text>
@@ -72,10 +82,21 @@ export default function WelcomeScreen() {
   );
 }
 
-function FeatureItem({ emoji, text }: { emoji: string; text: string }) {
+function FeatureItem({ 
+  emoji, 
+  text, 
+  colors 
+}: { 
+  emoji: string; 
+  text: string;
+  colors: { surface: string; border: string };
+}) {
   return (
-    <View className="flex-row items-center py-2">
-      <Text className="text-2xl mr-3">{emoji}</Text>
+    <View 
+      className="flex-row items-center py-2.5 px-4 mb-2 rounded-xl"
+      style={{ backgroundColor: colors.surface }}
+    >
+      <Text className="text-xl mr-3">{emoji}</Text>
       <Text className="text-base text-foreground">{text}</Text>
     </View>
   );
@@ -89,6 +110,11 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 320,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonPressed: {
     opacity: 0.9,

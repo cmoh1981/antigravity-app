@@ -6,6 +6,7 @@ import { useColors } from "@/hooks/use-colors";
 import { useAppStore } from "@/store";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
+import { Image } from "expo-image";
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
@@ -55,24 +56,35 @@ export default function CompleteScreen() {
   return (
     <ScreenContainer edges={["top", "bottom", "left", "right"]}>
       <View className="flex-1 justify-center items-center px-6">
-        {/* Success Icon */}
+        {/* Logo with Success Animation */}
+        <Animated.View style={animatedIconStyle}>
+          <View className="w-24 h-24 rounded-2xl overflow-hidden mb-4 shadow-lg">
+            <Image
+              source={require("@/assets/images/icon.png")}
+              style={{ width: "100%", height: "100%" }}
+              contentFit="cover"
+            />
+          </View>
+        </Animated.View>
+
+        {/* Success Badge */}
         <Animated.View style={animatedIconStyle}>
           <View 
-            className="w-32 h-32 rounded-full items-center justify-center mb-8"
+            className="px-4 py-2 rounded-full mb-6"
             style={{ backgroundColor: `${colors.success}20` }}
           >
-            <Text className="text-6xl">🎉</Text>
+            <Text className="text-success font-semibold">✓ 설정 완료</Text>
           </View>
         </Animated.View>
 
         {/* Title */}
         <Animated.View style={animatedTextStyle}>
-          <Text className="text-2xl font-bold text-foreground text-center mb-3">
-            준비가 완료되었어요!
+          <Text className="text-2xl font-bold text-foreground text-center mb-2">
+            오늘건강과 함께할 준비 완료!
           </Text>
-          <Text className="text-base text-muted text-center mb-8 leading-relaxed">
-            이제 매일 맞춤 건강 추천을 받아보세요.{"\n"}
-            오늘의 컨디션을 체크하면 시작됩니다!
+          <Text className="text-base text-muted text-center mb-6 leading-relaxed">
+            오늘 하루, 건강하게 시작해볼까요?{"\n"}
+            매일 컨디션 체크로 맞춤 추천을 받아보세요.
           </Text>
         </Animated.View>
 
@@ -81,11 +93,11 @@ export default function CompleteScreen() {
           style={[animatedTextStyle, { width: "100%", maxWidth: 320 }]}
         >
           <View 
-            className="p-5 rounded-2xl"
+            className="p-5 rounded-2xl border border-border"
             style={{ backgroundColor: colors.surface }}
           >
             <Text className="text-base font-semibold text-foreground mb-4">
-              설정된 정보
+              나의 건강 프로필
             </Text>
             
             {userProfile && (
@@ -102,7 +114,7 @@ export default function CompleteScreen() {
                 />
                 <SummaryItem 
                   label="건강 상태" 
-                  value={userProfile.diseases.length > 0 ? `${userProfile.diseases.length}개 선택` : "해당 없음"} 
+                  value={userProfile.diseases.length > 0 ? `${userProfile.diseases.length}개 관리 중` : "해당 없음"} 
                   colors={colors}
                 />
                 <SummaryItem 
@@ -117,7 +129,7 @@ export default function CompleteScreen() {
 
         {/* Start Button */}
         <Animated.View 
-          style={[animatedTextStyle, { width: "100%", maxWidth: 320, marginTop: 32 }]}
+          style={[animatedTextStyle, { width: "100%", maxWidth: 320, marginTop: 24 }]}
         >
           <Pressable
             onPress={handleStart}
@@ -128,7 +140,7 @@ export default function CompleteScreen() {
             ]}
           >
             <Text className="text-lg font-semibold text-white">
-              시작하기
+              오늘건강 시작하기
             </Text>
           </Pressable>
         </Animated.View>
@@ -175,8 +187,13 @@ function getGoalLabel(goal: string): string {
 const styles = StyleSheet.create({
   button: {
     paddingVertical: 16,
-    borderRadius: 12,
+    borderRadius: 30,
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonPressed: {
     opacity: 0.9,
