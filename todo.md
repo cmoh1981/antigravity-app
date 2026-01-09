@@ -115,3 +115,9 @@
 - [x] Loading states
 - [x] Error handling
 - [x] Empty states
+
+
+## Rebranding
+- [x] Generate new app icon with "해와 하트" concept for 오늘건강
+- [x] Update app name to 오늘건강 in app.config.ts
+- [x] Update logo URL with new icon
