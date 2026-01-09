@@ -1,11 +1,13 @@
 import "@/global.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { Stack, router, useSegments, useRootNavigationState } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
-import { Platform } from "react-native";
+import { Platform, View, ActivityIndicator } from "react-native";
+import { useAppStore } from "@/store";
+import { useColors } from "@/hooks/use-colors";
 import "@/lib/_core/nativewind-pressable";
 import { ThemeProvider } from "@/lib/theme-provider";
 import {
@@ -78,16 +80,55 @@ export default function RootLayout() {
     };
   }, [initialInsets, initialFrame]);
 
+  // Navigation component with onboarding logic
+  function NavigationContent() {
+    const colors = useColors();
+    const segments = useSegments();
+    const navigationState = useRootNavigationState();
+    const isOnboarded = useAppStore((state) => state.isOnboarded);
+    const [isReady, setIsReady] = useState(false);
+
+    useEffect(() => {
+      if (!navigationState?.key) return;
+      const timer = setTimeout(() => setIsReady(true), 100);
+      return () => clearTimeout(timer);
+    }, [navigationState?.key]);
+
+    useEffect(() => {
+      if (!isReady) return;
+      const inOnboarding = segments[0] === "onboarding";
+      if (!isOnboarded && !inOnboarding) {
+        router.replace("/onboarding");
+      } else if (isOnboarded && inOnboarding) {
+        router.replace("/(tabs)");
+      }
+    }, [isOnboarded, segments, isReady]);
+
+    if (!isReady) {
+      return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}>
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      );
+    }
+
+    return (
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="onboarding" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="checkin" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="medication" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="premium" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="oauth/callback" />
+      </Stack>
+    );
+  }
+
   const content = (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
-          {/* Default to hiding native headers so raw route segments don't appear (e.g. "(tabs)", "products/[id]"). */}
-          {/* If a screen needs the native header, explicitly enable it and set a human title via Stack.Screen options. */}
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="(tabs)" />
-            <Stack.Screen name="oauth/callback" />
-          </Stack>
+          <NavigationContent />
           <StatusBar style="auto" />
         </QueryClientProvider>
       </trpc.Provider>

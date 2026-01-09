@@ -14,10 +14,73 @@ type IconSymbolName = keyof typeof MAPPING;
  * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
  */
 const MAPPING = {
+  // Navigation
   "house.fill": "home",
+  "fork.knife": "restaurant",
+  "figure.run": "fitness-center",
+  "chart.bar.fill": "bar-chart",
+  "gearshape.fill": "settings",
+  "star.fill": "star",
+  
+  // Common actions
   "paperplane.fill": "send",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
+  "chevron.left": "chevron-left",
+  "plus": "add",
+  "xmark": "close",
+  "checkmark": "check",
+  "checkmark.circle.fill": "check-circle",
+  
+  // Health & Wellness
+  "heart.fill": "favorite",
+  "bed.double.fill": "hotel",
+  "moon.fill": "nightlight",
+  "sun.max.fill": "wb-sunny",
+  "cloud.fill": "cloud",
+  "cloud.rain.fill": "grain",
+  "thermometer": "thermostat",
+  
+  // Exercise categories
+  "house.circle.fill": "home-work",
+  "sun.horizon.fill": "wb-twilight",
+  "face.smiling.fill": "mood",
+  "snowflake": "ac-unit",
+  
+  // Meal & Food
+  "camera.fill": "camera-alt",
+  "photo.fill": "photo",
+  
+  // Medication
+  "pills.fill": "medication",
+  "cross.case.fill": "medical-services",
+  
+  // Profile & Settings
+  "person.fill": "person",
+  "person.crop.circle.fill": "account-circle",
+  "bell.fill": "notifications",
+  "info.circle.fill": "info",
+  "questionmark.circle.fill": "help",
+  
+  // Misc
+  "calendar": "calendar-today",
+  "clock.fill": "schedule",
+  "location.fill": "location-on",
+  "sparkles": "auto-awesome",
+  "bolt.fill": "bolt",
+  "drop.fill": "water-drop",
+  "wind": "air",
+  "leaf.fill": "eco",
+  "brain.head.profile": "psychology",
+  "message.fill": "chat",
+  "exclamationmark.triangle.fill": "warning",
+  "lock.fill": "lock",
+  "arrow.right": "arrow-forward",
+  "arrow.left": "arrow-back",
+  "play.fill": "play-arrow",
+  "pause.fill": "pause",
+  "stop.fill": "stop",
+  "timer": "timer",
 } as IconMapping;
 
 /**
@@ -39,3 +102,5 @@ export function IconSymbol({
 }) {
   return <MaterialIcons color={color} size={size} name={MAPPING[name]} style={style} />;
 }
+
+export type { IconSymbolName };
