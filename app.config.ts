@@ -45,7 +45,7 @@ const config: ExpoConfig = {
     edgeToEdgeEnabled: true,
     predictiveBackGestureEnabled: false,
     package: env.androidPackage,
-    permissions: ["POST_NOTIFICATIONS", "CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
+    permissions: ["POST_NOTIFICATIONS"],
     intentFilters: [
       {
         action: "VIEW",
@@ -67,26 +67,6 @@ const config: ExpoConfig = {
   },
   plugins: [
     "expo-router",
-    [
-      "expo-camera",
-      {
-        cameraPermission: "식사 사진을 촬영하기 위해 카메라 권한이 필요합니다.",
-      },
-    ],
-    [
-      "expo-image-picker",
-      {
-        photosPermission: "식사 사진을 선택하기 위해 사진 라이브러리 권한이 필요합니다.",
-      },
-    ],
-    [
-      "expo-media-library",
-      {
-        photosPermission: "식사 사진을 저장하기 위해 사진 라이브러리 권한이 필요합니다.",
-        savePhotosPermission: "식사 사진을 저장하기 위해 사진 라이브러리 권한이 필요합니다.",
-        isAccessMediaLocationEnabled: true,
-      },
-    ],
     [
       "expo-audio",
       {
