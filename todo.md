@@ -126,3 +126,7 @@
 - [x] Update welcome screen with 오늘건강 logo image
 - [x] Add brand slogan to welcome screen
 - [x] Update onboarding screens for brand consistency
+
+
+## Bug Fixes
+- [x] Fix app crash on mobile device launch (screen goes black) - fixed duplicate import

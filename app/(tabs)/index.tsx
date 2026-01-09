@@ -1,5 +1,5 @@
-import { useEffect, useMemo } from "react";
-import { Text, View, Pressable, StyleSheet, ScrollView, RefreshControl } from "react-native";
+import { useEffect, useMemo, useState } from "react";
+import { Text, View, Pressable, StyleSheet, ScrollView, RefreshControl, Platform } from "react-native";
 import { router } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
@@ -8,8 +8,6 @@ import { generatePlanOfDay } from "@/lib/rules-engine";
 import { createLLMProvider, NoLLMProvider } from "@/lib/llm-adapter";
 import { CATEGORY_LABELS, GOAL_LABELS, CoachFacts } from "@/types";
 import * as Haptics from "expo-haptics";
-import { Platform } from "react-native";
-import { useState } from "react";
 
 export default function HomeScreen() {
   const colors = useColors();
