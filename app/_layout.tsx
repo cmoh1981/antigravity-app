@@ -5,9 +5,9 @@ import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
-import { Platform, View, ActivityIndicator } from "react-native";
+import { Platform } from "react-native";
 import { useAppStore } from "@/store";
-import { useColors } from "@/hooks/use-colors";
+
 import "@/lib/_core/nativewind-pressable";
 import { ThemeProvider } from "@/lib/theme-provider";
 import {
@@ -82,35 +82,19 @@ export default function RootLayout() {
 
   // Navigation component with onboarding logic
   function NavigationContent() {
-    const colors = useColors();
     const segments = useSegments();
     const navigationState = useRootNavigationState();
     const isOnboarded = useAppStore((state) => state.isOnboarded);
-    const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
       if (!navigationState?.key) return;
-      const timer = setTimeout(() => setIsReady(true), 100);
-      return () => clearTimeout(timer);
-    }, [navigationState?.key]);
-
-    useEffect(() => {
-      if (!isReady) return;
       const inOnboarding = segments[0] === "onboarding";
       if (!isOnboarded && !inOnboarding) {
         router.replace("/onboarding");
       } else if (isOnboarded && inOnboarding) {
         router.replace("/(tabs)");
       }
-    }, [isOnboarded, segments, isReady]);
-
-    if (!isReady) {
-      return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.background }}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      );
-    }
+    }, [isOnboarded, segments, navigationState?.key]);
 
     return (
       <Stack screenOptions={{ headerShown: false }}>
