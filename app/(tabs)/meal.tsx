@@ -283,7 +283,7 @@ export default function MealScreen() {
     <ScreenContainer>
       <ScrollView 
         className="flex-1 px-6"
-        contentContainerStyle={{ paddingTop: 8, paddingBottom: 120 }}
+        contentContainerStyle={{ paddingTop: 4, paddingBottom: 90 }}
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}

@@ -147,10 +147,10 @@ export default function ExerciseScreen() {
     <ScreenContainer>
       <ScrollView 
         className="flex-1"
-        contentContainerStyle={{ paddingBottom: 120, paddingTop: 8 }}
+        contentContainerStyle={{ paddingBottom: 90, paddingTop: 4 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="px-6 pt-4">
+        <View className="px-4 pt-2">
           {/* Header */}
           <View className="mb-6">
             <View className="flex-row items-center mb-2">
