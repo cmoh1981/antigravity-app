@@ -5,6 +5,7 @@ import { useColors } from "@/hooks/use-colors";
 import { useAppStore, getTodayDate } from "@/store";
 import { CATEGORY_LABELS, ExerciseSet } from "@/types";
 import { getExerciseImage } from "@/data/images";
+import { ExerciseDetailModal } from "@/components/exercise-detail-modal";
 import * as Haptics from "expo-haptics";
 import { Platform } from "react-native";
 
@@ -14,6 +15,8 @@ export default function ExerciseScreen() {
   const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState<ExerciseSet | null>(null);
   
   const todayPlan = useAppStore((state) => state.todayPlan);
   const todayCheckIn = useAppStore((state) => state.todayCheckIn);
@@ -144,7 +147,7 @@ export default function ExerciseScreen() {
     <ScreenContainer>
       <ScrollView 
         className="flex-1"
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 120, paddingTop: 8 }}
         showsVerticalScrollIndicator={false}
       >
         <View className="px-6 pt-4">
@@ -224,19 +227,47 @@ export default function ExerciseScreen() {
               {getPhaseLabel(currentPhase)} {currentExerciseIndex + 1}/{currentExercises.length}
             </Text>
             
-            <Text className="text-2xl font-bold text-foreground mb-2">
-              {currentExercise?.name}
-            </Text>
+            <View className="flex-row items-center justify-between mb-2">
+              <Text className="text-2xl font-bold text-foreground flex-1">
+                {currentExercise?.name}
+              </Text>
+              <Pressable
+                onPress={() => {
+                  if (Platform.OS !== 'web') {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                  }
+                  setSelectedExercise(currentExercise);
+                  setShowDetailModal(true);
+                }}
+                style={({ pressed }) => [
+                  styles.infoButton,
+                  { backgroundColor: `${colors.primary}20` },
+                  pressed && { opacity: 0.7 }
+                ]}
+              >
+                <Text style={{ color: colors.primary, fontSize: 16 }}>ℹ️</Text>
+              </Pressable>
+            </View>
 
             {/* Exercise Image */}
             {currentExercise && (
-              <View className="items-center my-4">
-                <Image
-                  source={getExerciseImage(currentExercise.name)}
-                  style={{ width: 200, height: 200, borderRadius: 16 }}
-                  resizeMode="contain"
-                />
-              </View>
+              <Pressable
+                onPress={() => {
+                  setSelectedExercise(currentExercise);
+                  setShowDetailModal(true);
+                }}
+              >
+                <View className="items-center my-4">
+                  <Image
+                    source={getExerciseImage(currentExercise.name)}
+                    style={{ width: 200, height: 200, borderRadius: 16 }}
+                    resizeMode="contain"
+                  />
+                  <Text className="text-xs text-primary mt-2">
+                    탭하여 운동 상세 보기
+                  </Text>
+                </View>
+              </Pressable>
             )}
             
             {currentExercise?.description && (
@@ -386,6 +417,16 @@ export default function ExerciseScreen() {
           </View>
         </View>
       </ScrollView>
+
+      {/* Exercise Detail Modal */}
+      <ExerciseDetailModal
+        visible={showDetailModal}
+        exercise={selectedExercise}
+        onClose={() => {
+          setShowDetailModal(false);
+          setSelectedExercise(null);
+        }}
+      />
     </ScreenContainer>
   );
 }
@@ -470,5 +511,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     marginBottom: 8,
+  },
+  infoButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 8,
   },
 });
