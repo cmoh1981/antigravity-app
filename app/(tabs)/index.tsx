@@ -151,20 +151,20 @@ export default function HomeScreen() {
     <ScreenContainer>
       <ScrollView 
         className="flex-1"
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 90, paddingTop: 4 }}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
       >
-        <View className="px-6 pt-4">
+        <View className="px-4 pt-2">
           {/* Header */}
-          <View className="flex-row items-center justify-between mb-6">
+          <View className="flex-row items-center justify-between mb-3">
             <View>
-              <Text className="text-sm text-primary font-medium">
+              <Text className="text-xs text-primary font-medium">
                 오늘건강
               </Text>
-              <Text className="text-2xl font-bold text-foreground">
+              <Text className="text-xl font-bold text-foreground">
                 {new Date().toLocaleDateString('ko-KR', { 
                   month: 'long', 
                   day: 'numeric',
@@ -187,10 +187,10 @@ export default function HomeScreen() {
           {/* Coach Greeting */}
           {coachText && (
             <View 
-              className="p-4 rounded-2xl mb-6"
+              className="p-3 rounded-xl mb-3"
               style={{ backgroundColor: `${colors.primary}10` }}
             >
-              <Text className="text-base text-foreground leading-relaxed">
+              <Text className="text-sm text-foreground leading-snug">
                 {coachText.greeting}
               </Text>
             </View>
@@ -378,24 +378,24 @@ function getCategoryColor(category: string, colors: ReturnType<typeof useColors>
 
 const styles = StyleSheet.create({
   checkInButton: {
-    paddingHorizontal: 32,
-    paddingVertical: 16,
-    borderRadius: 30,
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    borderRadius: 24,
   },
   buttonPressed: {
     opacity: 0.9,
     transform: [{ scale: 0.98 }],
   },
   moodBadge: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
   },
   card: {
-    padding: 16,
-    borderRadius: 16,
-    marginBottom: 12,
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 8,
   },
 });

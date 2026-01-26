@@ -1,0 +1,10 @@
+module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: ["babel-preset-expo"],
+    plugins: [
+      // Remove reanimated plugin for web builds
+      // ["react-native-reanimated/plugin"],
+    ],
+  };
+};
