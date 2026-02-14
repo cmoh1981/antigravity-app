@@ -1,0 +1,4 @@
+Issue: Home screen content is rendered but visibility:hidden
+Root cause: Animated.View with FadeInDown/FadeInUp entering animations from react-native-reanimated
+These animations set visibility:hidden initially and never trigger on web.
+Solution: Remove or conditionally disable entering animations on web, or use a simpler approach.

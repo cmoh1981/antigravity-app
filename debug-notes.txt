@@ -1,0 +1,4 @@
+Preview shows blank screen with tab bar visible at bottom (홈, 식단, 유동, 리포트, 설정).
+Tab bar is rendering correctly with orange active color on 홈 tab.
+Content area is blank - likely the Home screen content is not rendering.
+Need to check if the upgraded Home screen has any rendering issues.
